@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <link href="css/styleFull.css" type="text/css" rel="stylesheet" /> 
+    </h:head>
+    <h:body>
+        <h:panelGrid columns="2" styleClass="panelGrid" id="panel">
+            <h:form> 
+                <h:panelGrid columns="2">
+                    <h:panelGroup style="padding: 10px;">
+                        <p:inputText label="Usuario: " required="true" id="user" requiredMessage="El campo es querido" validatorMessage="El campo debe tener minimo 6 caracteres" maxlength="20" value="#{UserController.usuario}"  />
+                    </h:panelGroup>
+                    <h:panelGroup style="padding: 10px;">
+                        <p:commandLink styleClass="button" id="button" update="respuesta panel" actionListener="#{UserController.validarUsuarioAction}">
+                            <h:outputText value="Validar Usuario"  />
+                        </p:commandLink>
+                    </h:panelGroup>
+                </h:panelGrid>
+                <br/>
+                <p:message for="user"  />
+            </h:form>
+        </h:panelGrid>
+        <h:panelGroup id="respuesta" styleClass="panelGroup" >
+            <h:panelGroup styleClass="panelGroup">
+                <h:outputText value="#{UserController.usuarioRestringido}"/>
+                <br/>
+                <h:outputText value="#{UserController.usuarioValido}" />
+            </h:panelGroup>
+            <p:dataTable emptyMessage="No existen sugerencias" var="userName" value="#{UserController.respuestaDTO.userNames}">
+                <p:column headerText="Sugerencias">
+                    <h:outputText value="#{userName}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:panelGroup>
+    </h:body>
+</html>
