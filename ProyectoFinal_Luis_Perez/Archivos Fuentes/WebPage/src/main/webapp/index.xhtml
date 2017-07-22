@@ -7,15 +7,41 @@
         <link href="css/styleFull.css" type="text/css" rel="stylesheet" /> 
     </h:head>
     <h:body>
+        <h:form id="divAlerta">
+            <p:dialog header="#{i18n['common.label.alerta']}"  minWidth="400" style="min-width: 420px;" draggable="false" modal="true" resizable="false" dynamic="false" widgetVar="errorGenericoDialog" closable="false" visible="#{UserController.mostrarAlertaGenerica}">
+                <div class="centrado" style="  background-color: #F7F7F6;">
+                    <div>
+                        <h:outputText styleClass="azul font-size-1punto2em" value="#{UserController.mensajeAlertaGenerica}"/>
+                    </div>
+                    <div class="height_10"></div>
+                    <div align="center"> 
+                        <h:commandLink id="cerrar" actionListener="#{UserController.doCerrarDialogoGenericoCommandButtonAction()}" immediate="true" onclick="PF('errorGenericoDialog').hide()">
+                            <div class="button" style="width:140px; margin-top:5px;">                                     
+                                <div class="centrado">
+                                    <h:outputText value="Aceptar" />
+                                </div>
+                            </div>
+                        </h:commandLink>
+                    </div>
+                    <div class="height_10"></div>
+                </div>
+            </p:dialog>                
+        </h:form>
+
         <h:panelGrid columns="2" styleClass="panelGrid" id="panel">
             <h:form> 
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="3">
                     <h:panelGroup style="padding: 10px;">
-                        <p:inputText label="Usuario: " required="true" id="user" requiredMessage="El campo es querido" validatorMessage="El campo debe tener minimo 6 caracteres" maxlength="20" value="#{UserController.usuario}"  />
+                        <p:inputText label="#{i18n['common.label.usuario']}" required="true" id="user" requiredMessage="#{i18n['common.message.requerido']}" validatorMessage="#{i18n['common.message.minimo.6.caracteres']}" maxlength="20" value="#{UserController.usuario}"  />
                     </h:panelGroup>
                     <h:panelGroup style="padding: 10px;">
-                        <p:commandLink styleClass="button" id="button" update="respuesta panel" actionListener="#{UserController.validarUsuarioAction}">
-                            <h:outputText value="Validar Usuario"  />
+                        <p:commandLink styleClass="button" id="button" update="respuesta panel divAlerta" actionListener="#{UserController.validarUsuarioAction}">
+                            <h:outputText value="#{i18n['common.label.validar.usuario']}"  />
+                        </p:commandLink>
+                    </h:panelGroup>
+                    <h:panelGroup style="padding: 10px;">
+                        <p:commandLink styleClass="button" id="button_agregar_usuario_restringido" update="respuesta panel divAlerta" actionListener="#{UserController.agregarUsuarioRestringidoAction}">
+                            <h:outputText value="#{i18n['common.label.agregar.usuario.registringido']}"  />
                         </p:commandLink>
                     </h:panelGroup>
                 </h:panelGrid>
@@ -23,18 +49,12 @@
                 <p:message for="user"  />
             </h:form>
         </h:panelGrid>
-        <h:panelGroup id="respuesta" styleClass="panelGroup" >
-            <h:panelGroup styleClass="panelGroup">
-                <h:outputText value="#{UserController.usuarioRestringido}"/>
-                <br/>
-                <h:outputText value="#{UserController.usuarioValido}" />
-            </h:panelGroup>
-            <p:dataTable emptyMessage="No existen sugerencias" var="userName" value="#{UserController.respuestaDTO.userNames}">
-                <p:column headerText="Sugerencias">
+        <h:panelGroup id="respuesta" >
+            <p:dataTable styleClass="panelGroup" rendered="#{UserController.respuestaDTO.userNames.size() > 0}" emptyMessage="common.message.no.existe.sugerencias" var="userName" value="#{UserController.respuestaDTO.userNames}">
+                <p:column headerText="#{i18n['common.titles.headers.sugerencias']}">
                     <h:outputText value="#{userName}" />
                 </p:column>
             </p:dataTable>
-
         </h:panelGroup>
     </h:body>
 </html>

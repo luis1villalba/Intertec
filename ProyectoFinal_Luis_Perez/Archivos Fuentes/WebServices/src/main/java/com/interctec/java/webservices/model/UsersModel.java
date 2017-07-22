@@ -5,7 +5,7 @@
  */
 package com.interctec.java.webservices.model;
 
-import java.util.ArrayList;
+import com.interctec.java.webservices.data.ControlDataArchivo;
 import java.util.List;
 
 /**
@@ -15,26 +15,12 @@ import java.util.List;
 public class UsersModel {
 
     public UsersModel() {
-        userNamesSaved = new ArrayList<>();
-        userNamesSaved.add("carlos");
-        userNamesSaved.add("juaan");
-        userNamesSaved.add("pedro");
-        userNamesSaved.add("maria");
-        userNamesSaved.add("juana");
-        userNamesSaved.add("rosario");
-        userNamesSaved.add("enerto");
-        userNamesSaved.add("cesar");
-        userNamesSaved.add("chala");
-        userNamesSaved.add("smith");
-        userNamesSaved.add("charles");
-        
-        userNamesRestricted = new ArrayList();
-        userNamesRestricted.add("cannabis");
-        userNamesRestricted.add("abuse");
-        userNamesRestricted.add("crack");
-        userNamesRestricted.add("damn");
-        userNamesRestricted.add("drunk");
-        userNamesRestricted.add("grass");
+        //SE INICIALIZAN LAS LISTAS 
+        //LA DATA PROVIENE DE UN ARCHIVO DE RECURSOS
+        //ESTA IMPLEMENTACION PUEDE SE CAMBIADA PARA BUSCAR LA DATA DE UNA BASE DE DATOS
+        //SIN NECESIDAD DE CAMBIAR EL RESTO DE LA IMPLEMENTACION
+        userNamesSaved      = new ControlDataArchivo().consultarArchivo("UsersNamesDataSaved.txt");
+        userNamesRestricted = new ControlDataArchivo().consultarArchivo("UsersNamesRestricted.txt");
     }
     
     private List<String> userNamesSaved;
@@ -54,5 +40,9 @@ public class UsersModel {
 
     public void setUserNamesRestricted(List<String> userNamesRestricted) {
         this.userNamesRestricted = userNamesRestricted;
+    }
+    
+    public boolean agregarUserNameRestricted(String userNameRestricted){
+        return new ControlDataArchivo().agregarUserNameRestricted(userNameRestricted);
     }
 }

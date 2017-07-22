@@ -18,4 +18,10 @@ public interface UserDAO {
      * @return RespuestaDTO
      */
     public RespuestaDTO validarUserName(String userName);
+    
+    /**
+     * @param userName  
+     * @return RespuestaDTO
+     */
+    public RespuestaDTO agregarUserNameRestricted(String userName);
 }

@@ -13,4 +13,5 @@ import com.interctec.java.webpage.dto.RespuestaDTO;
  */
 public interface UserDAO {
     public RespuestaDTO validarUserName(String userName);
+    public RespuestaDTO agregarUsuarioRestringido(String userName);
 }

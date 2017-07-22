@@ -5,40 +5,64 @@
  */
 package com.interctec.java.webpage.controller;
 
+import com.interctec.java.webpage.constants.Constants;
 import com.interctec.java.webpage.dao.UserDAO;
 import com.interctec.java.webpage.dto.RespuestaDTO;
+import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped; 
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author luis.perez
  */
 @ManagedBean(name = "UserController")
-@ViewScoped
+@SessionScoped
 public class UserController {
     private String usuario;
-    private String usuarioRestringido;
-    private String usuarioValido;
     private RespuestaDTO respuestaDTO;
+    private boolean mostrarAlertaGenerica = Boolean.FALSE;
+    private String mensajeAlertaGenerica;
+    private ResourceBundle i18n = ResourceBundle.getBundle("i18n");
     
     @EJB
     private UserDAO userDAO;
     
     public void validarUsuarioAction(){
+        setMostrarAlertaGenerica(Boolean.TRUE);
         respuestaDTO = userDAO.validarUserName(usuario);
-        if(respuestaDTO.getRestricted()){
-            usuarioRestringido = "Este usuario esta restringido. No puede ser usado";
-        }else {
-            usuarioRestringido = "";
-        }
         
+        
+        //EL USUARIO ES VALIDO
         if(respuestaDTO.getValid()){
-            usuarioValido = "Usuario Válido";
-        }else {
-            usuarioValido = "Usuario Inválido";
+            setMensajeAlertaGenerica(i18n.getString("common.message.nombre.usuario.valido"));
+        //EL USUARIO ESTA RESTRINGIDO    
+        }else if(respuestaDTO.getRestricted()){
+            setMensajeAlertaGenerica(i18n.getString("common.message.nombre.usuario.no.restringido"));
+        //EL USUARIO ES INVLAIDO PERO NO ESTA RESTRINGIDO    
+        }else  {
+            setMensajeAlertaGenerica(i18n.getString("common.message.nombre.usuario.en.uso"));
         }
+    }
+    
+    public void agregarUsuarioRestringidoAction(){
+        respuestaDTO = userDAO.agregarUsuarioRestringido(usuario);
+        setMostrarAlertaGenerica(Boolean.TRUE);
+        if(respuestaDTO.getCodigoRespuestaOperacion().equals(Constants.CODIGO_RESPUESTA_EXITOSO)){
+            if(respuestaDTO.getUserNameToAddExist()){
+                setMensajeAlertaGenerica(i18n.getString("common.message.nombre.usuario.ya.agregado.en.lista.restringidos"));
+            }else {
+                setMensajeAlertaGenerica(i18n.getString("common.message.nombre.usuario.agregado.con.exito"));
+            }
+        }else {
+            setMensajeAlertaGenerica(i18n.getString("common.message.nombre.usuario.no.pudo.ser.agregado"));
+        }
+    }
+    
+    public void doCerrarDialogoGenericoCommandButtonAction() {
+        setMostrarAlertaGenerica(Boolean.FALSE);
+        setMensajeAlertaGenerica("");
     }
 
     public String getUsuario() {
@@ -57,19 +81,19 @@ public class UserController {
         this.respuestaDTO = respuestaDTO;
     }
 
-    public String getUsuarioRestringido() {
-        return usuarioRestringido;
+    public boolean isMostrarAlertaGenerica() {
+        return mostrarAlertaGenerica;
     }
 
-    public void setUsuarioRestringido(String usuarioRestringido) {
-        this.usuarioRestringido = usuarioRestringido;
+    public void setMostrarAlertaGenerica(boolean mostrarAlertaGenerica) {
+        this.mostrarAlertaGenerica = mostrarAlertaGenerica;
     }
 
-    public String getUsuarioValido() {
-        return usuarioValido;
+    public String getMensajeAlertaGenerica() {
+        return mensajeAlertaGenerica;
     }
 
-    public void setUsuarioValido(String usuarioValido) {
-        this.usuarioValido = usuarioValido;
+    public void setMensajeAlertaGenerica(String mensajeAlertaGenerica) {
+        this.mensajeAlertaGenerica = mensajeAlertaGenerica;
     }
 }

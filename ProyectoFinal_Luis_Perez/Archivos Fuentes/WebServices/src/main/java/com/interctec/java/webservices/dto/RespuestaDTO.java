@@ -5,6 +5,7 @@
  */
 package com.interctec.java.webservices.dto;
 
+import com.interctec.java.webservices.constants.Constants;
 import java.util.List;
 
 /**
@@ -12,10 +13,16 @@ import java.util.List;
  * @author luis.perez
  */
 public class RespuestaDTO {
-    private Boolean valid;
-    private Boolean restricted;
-    private List<String> userNames;
+    private String codigoRespuestaOperacion; //INDICA SI LA TRANSACCCION SE LLEVO A CABO CON EXITO
+    private Boolean valid;              //INDICA SI EL USUARIO ES VALIDO O NO
+    private Boolean restricted;         //INDICA QUE EL USUARIO ESTA RESTRINGIDO 
+    private Boolean userNameToAddExist; //INDICA QUE EL USERNAME A AGREGAR YA EXISTE EN EL ARCHIVO
+    private List<String> userNames;     //INDICA LA LISTA DE USERNAMES PARA LAS SUGERENCIAS
 
+    public RespuestaDTO() {
+        this.codigoRespuestaOperacion = Constants.CODIGO_RESPUESTA_EXITOSO;
+    }
+    
     public Boolean getValid() {
         return valid;
     }
@@ -38,5 +45,21 @@ public class RespuestaDTO {
 
     public void setRestricted(Boolean restricted) {
         this.restricted = restricted;
+    }
+
+    public String getCodigoRespuestaOperacion() {
+        return codigoRespuestaOperacion;
+    }
+
+    public void setCodigoRespuestaOperacion(String codigoRespuestaOperacion) {
+        this.codigoRespuestaOperacion = codigoRespuestaOperacion;
+    }    
+
+    public Boolean getUserNameToAddExist() {
+        return userNameToAddExist;
+    }
+
+    public void setUserNameToAddExist(Boolean userNameToAddExist) {
+        this.userNameToAddExist = userNameToAddExist;
     }    
 }

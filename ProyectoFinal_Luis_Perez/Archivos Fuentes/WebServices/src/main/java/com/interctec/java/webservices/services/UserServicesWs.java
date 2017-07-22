@@ -19,7 +19,7 @@ import javax.jws.WebMethod;
 public class UserServicesWs {
 
     //@EJB ES POSBILE TAMBIEN UTIALIZAR LA INYECION DEL BEAN PARA PROCESOS MAS COMPLEJOS
-    private UserDAO userDAO;
+    private UserDAO userDAO = new UserDAOImpl();
     
     /**
      * Web service operation
@@ -28,7 +28,16 @@ public class UserServicesWs {
      */
     @WebMethod(operationName = "validarUserName")
     public RespuestaDTO validarUserName(String userName) {
-        userDAO = new UserDAOImpl();
         return userDAO.validarUserName(userName);
+    }
+    
+    /**
+     * Web service operation
+     * @param userName
+     * @return RespuestaDTO
+     */
+    @WebMethod(operationName = "agregarUserNameRestricted")
+    public RespuestaDTO agregarUserNameRestricted(String userName) {
+        return userDAO.agregarUserNameRestricted(userName);
     }
 }

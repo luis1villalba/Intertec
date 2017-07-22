@@ -19,8 +19,20 @@ and open the template in the editor.
     transition: all 500ms ease;
 }
 
+.button_negro {
+    padding: 5px;
+    background: rgb(255,232,140); /* antes rgb(255,204,0);*/
+    border-radius: 10px;    
+    min-width: 130px; 
+    max-width: 250px;
+    font-family: Open Sans, sans-serif;
+    border: none;
+    color: #000;
+    font-weight: bold;
+}
+
 .panelGrid { 
-    width: 50%; 
+    width: 60%; 
     margin: auto; 
     padding-top:  100px;
 }
